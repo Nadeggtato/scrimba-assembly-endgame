@@ -1,42 +1,79 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  display: flex;
+  background-color: #282726;
+  color: #8E8E8E;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+main {
+  max-width: 594px;
+  margin: auto;
+  max-height: 720px;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.title {
+  color: #F9F4DA;
+  font-size: 20px;
+  margin-bottom: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.instructions {
+  margin-top: 5px;
+  font-size: 14px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.top-container {
+  max-width: 352px;
+  margin: auto;
+}
+
+.languages-container {
+  margin-top: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+}
+
+.languages-container > div {
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+div.answer-letter-container {
+  width: 40px;
+  height: 40px;
+  border-bottom: 1px solid #F9F4DA;
+  background-color: #323232;
+}
+
+div.answers-container {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.letters-container {
+  margin: auto;
+  margin-top: 40px;
+  max-width: 480px;
+}
+
+.letter-btns {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #D7D7D7;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 4px;
+}
+
+.letter-btns.status-neutral {
+  background-color: #FCBA29;
+  text-transform: uppercase;
+  font-size: 16px;
 }
