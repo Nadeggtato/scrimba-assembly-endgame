@@ -6,13 +6,19 @@ import { useEffect, useState } from "react";
 import Alphabet from "@/types/Alphabet";
 import { LetterStatus } from "@/data/constants";
 import Letter from "./Letter";
+import { words } from "@/data/words";
 
 const hk500 = Hanken_Grotesk({ subsets: ['latin'], weight: '500' })
 
 export default function Main() {
-  const [alphabet, setAlphabet] = useState<Array<Alphabet>>([])
+  const [alphabet, setAlphabet] = useState<Array<Alphabet>>(() => initializeLetters())
+  const [word, setWord] = useState<string>('')
 
   useEffect(() => {
+    setWord(initializeWord())
+  }, [])
+
+  function initializeLetters() {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
     const lettersArray: Array<Alphabet> = []
 
@@ -20,8 +26,14 @@ export default function Main() {
       lettersArray.push({ letter: letter, status: LetterStatus.NEUTRAL })
     })
 
-    setAlphabet(lettersArray)
-  }, [])
+    return lettersArray
+  }
+
+  function initializeWord() {
+    const index = Math.floor(Math.random() * (words.length - 1)) + 1
+
+    return words[index]
+  }
 
   return (
     <main className={hk500.className}>
@@ -34,13 +46,10 @@ export default function Main() {
         <div className="languages-container">
           { languages.map((lang) => <Language language={lang}/>) }
         </div>
+        { word }
 
         <div className="answers-container">
-          <Answer/>
-          <Answer/>
-          <Answer/>
-          <Answer/>
-          <Answer/>
+          { Array.apply(null, Array(word.length)).map(() => <Answer/> )}
         </div>
       </div>
 
