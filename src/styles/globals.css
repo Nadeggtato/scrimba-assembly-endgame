@@ -48,6 +48,11 @@ div.answer-letter-container {
   height: 40px;
   border-bottom: 1px solid #F9F4DA;
   background-color: #323232;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #F9F4DA;
 }
 
 div.answers-container {

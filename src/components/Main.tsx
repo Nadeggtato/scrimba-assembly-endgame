@@ -7,12 +7,13 @@ import Alphabet from "@/types/Alphabet";
 import { LetterStatus } from "@/data/constants";
 import Letter from "./Letter";
 import { words } from "@/data/words";
+import type AnswerType from "@/types/Answer";
 
 const hk500 = Hanken_Grotesk({ subsets: ['latin'], weight: '500' })
 
 export default function Main() {
   const [alphabet, setAlphabet] = useState<Array<Alphabet>>(() => initializeLetters())
-  const [word, setWord] = useState<string>('')
+  const [word, setWord] = useState<Array<AnswerType>>([])
 
   useEffect(() => {
     setWord(initializeWord())
@@ -31,8 +32,11 @@ export default function Main() {
 
   function initializeWord() {
     const index = Math.floor(Math.random() * (words.length - 1)) + 1
+    const wordArray = words[index].split('').map((letter) => {
+      return { letter: letter, isGuessed: false }
+    })
 
-    return words[index]
+    return wordArray
   }
 
   return (
@@ -46,10 +50,9 @@ export default function Main() {
         <div className="languages-container">
           { languages.map((lang) => <Language language={lang}/>) }
         </div>
-        { word }
 
         <div className="answers-container">
-          { Array.apply(null, Array(word.length)).map(() => <Answer/> )}
+          { word.map((letter, index) => <Answer key={index} answer={letter}/> )}
         </div>
       </div>
 
