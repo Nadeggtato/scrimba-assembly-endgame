@@ -44,18 +44,37 @@ export default function Main() {
       return
     }
 
+    let exists = false
+
     setAlphabet((prevAlphabet) => {
       const alphabetCopy = [...prevAlphabet]
       const alphabetIndex = alphabetCopy.findIndex((alphabet) => alphabet.letter === letter.letter)
 
       if (alphabetIndex !== -1) {
+        exists = word.some(char => char.letter === letter.letter)
+
         alphabetCopy[alphabetIndex] = {
           ...alphabetCopy[alphabetIndex],
-          status: word.some(char => char.letter === letter.letter) ? 'correct' : 'wrong'
+          status: exists ? 'correct' : 'wrong'
         }
       }
 
       return alphabetCopy
+    })
+
+    setWord((prevWord) => {
+      const answer = prevWord.map((answer) => {
+        if (answer.isGuessed) {
+          return {...answer}
+        }
+
+        return {
+          ...answer,
+          isGuessed: answer.letter === letter.letter
+        }
+      })
+
+      return answer
     })
   }
 
