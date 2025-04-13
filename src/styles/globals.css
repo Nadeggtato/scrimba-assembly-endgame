@@ -31,7 +31,7 @@ main {
 }
 
 .languages-container {
-  margin-top: 100px;
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
@@ -83,7 +83,7 @@ div.answers-container {
   background-color: #FCBA29;
 }
 
-.letter-btns.status-wrong {
+.letter-btns.status-incorrect {
   background-color: #EC5D49;
 }
 
@@ -101,4 +101,34 @@ div.answers-container {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+div.message {
+  text-align: center;
+  font-size: 16px;
+  color: #F9F4DA;
+  padding: 20px;
+}
+
+div.message.type-neutral {
+  background-color: transparent;
+}
+
+div.message.type-incorrect {
+  font-style: italic;
+  background-color: #7A5EA7;
+  border: 1px dashed #323232;
+}
+
+div.message.type-fail,
+div.message.type-success {
+  border-radius: 4px;
+}
+
+div.message.type-fail {
+  background-color: #BA2A2A;
+}
+
+div.message.type-success {
+  background-color: #10A95B;
 }

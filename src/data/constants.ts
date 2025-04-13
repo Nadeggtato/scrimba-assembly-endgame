@@ -1,5 +1,7 @@
-export const LetterStatus = {
+export const Statuses = {
   NEUTRAL: 'neutral',
   CORRECT: 'correct',
-  INCORRECT: 'incorrect'
+  INCORRECT: 'incorrect',
+  FAIL: 'fail',
+  SUCCESS: 'success',
 }

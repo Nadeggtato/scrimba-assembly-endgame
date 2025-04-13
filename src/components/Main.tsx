@@ -4,11 +4,12 @@ import Language from "./Language";
 import Answer from "./Answer";
 import { useEffect, useState } from "react";
 import Alphabet from "@/types/Alphabet";
-import { LetterStatus } from "@/data/constants";
+import { Statuses } from "@/data/constants";
 import Letter from "./Letter";
 import { words } from "@/data/words";
 import type AnswerType from "@/types/Answer";
 import type LanguageType from "@/types/Language";
+import Message from "./Message";
 
 const hk500 = Hanken_Grotesk({ subsets: ['latin'], weight: '500' })
 
@@ -16,7 +17,8 @@ export default function Main() {
   const [alphabet, setAlphabet] = useState<Array<Alphabet>>(() => initializeLetters())
   const [word, setWord] = useState<Array<AnswerType>>([])
   const [languageScores, setLanguageScores] = useState<Array<LanguageType>>(languages)
-  const [hitCount, setHitCount] = useState<number>(0)
+  const [messageType, setMessageType] = useState<string>(Statuses.NEUTRAL)
+  const [wrongCount, setWrongCount] = useState<number>(0)
 
   useEffect(() => {
     setWord(initializeWord())
@@ -27,7 +29,7 @@ export default function Main() {
     const lettersArray: Array<Alphabet> = []
 
     letters.forEach((letter) => {
-      lettersArray.push({ letter: letter, status: LetterStatus.NEUTRAL })
+      lettersArray.push({ letter: letter, status: Statuses.NEUTRAL })
     })
 
     return lettersArray
@@ -52,7 +54,7 @@ export default function Main() {
       if (alphabetIndex !== -1) {
         alphabetCopy[alphabetIndex] = {
           ...alphabetCopy[alphabetIndex],
-          status: exists ? 'correct' : 'wrong'
+          status: exists ? Statuses.CORRECT : Statuses.INCORRECT
         }
       }
 
@@ -88,20 +90,27 @@ export default function Main() {
     }
 
     setLanguageScores(languagesCopy)
+    setWrongCount((prevCount) => prevCount + 1)
+  }
+
+  function updateMessage(type: string) {
+    setMessageType(type)
   }
 
   function guessLetter(letter: Alphabet) {
-    if (letter.status !== 'neutral') {
+    if (letter.status !== Statuses.NEUTRAL) {
       return
     }
 
     if (isAnswerCorrect(letter)) {
       updateAnswer(letter)
+      updateMessage(Statuses.NEUTRAL)
 
       return
     }
 
     updateLanguage()
+    updateMessage(Statuses.INCORRECT)
   }
 
   return (
@@ -111,7 +120,7 @@ export default function Main() {
         <p className="instructions">
           Guess the word in under 8 attempts to keep the programming world safe from Assembly!
         </p>
-
+        <Message type={messageType} language={languageScores[wrongCount - 1]?.name}/>
         <div className="languages-container">
           { languageScores.map((lang) => <Language key={lang.name} language={lang}/>) }
         </div>
