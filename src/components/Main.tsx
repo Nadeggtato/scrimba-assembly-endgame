@@ -8,12 +8,15 @@ import { LetterStatus } from "@/data/constants";
 import Letter from "./Letter";
 import { words } from "@/data/words";
 import type AnswerType from "@/types/Answer";
+import type LanguageType from "@/types/Language";
 
 const hk500 = Hanken_Grotesk({ subsets: ['latin'], weight: '500' })
 
 export default function Main() {
   const [alphabet, setAlphabet] = useState<Array<Alphabet>>(() => initializeLetters())
   const [word, setWord] = useState<Array<AnswerType>>([])
+  const [languageScores, setLanguageScores] = useState<Array<LanguageType>>(languages)
+  const [hitCount, setHitCount] = useState<number>(0)
 
   useEffect(() => {
     setWord(initializeWord())
@@ -47,7 +50,6 @@ export default function Main() {
       const alphabetIndex = alphabetCopy.findIndex((alphabet) => alphabet.letter === letter.letter)
 
       if (alphabetIndex !== -1) {
-
         alphabetCopy[alphabetIndex] = {
           ...alphabetCopy[alphabetIndex],
           status: exists ? 'correct' : 'wrong'
@@ -77,6 +79,17 @@ export default function Main() {
     })
   }
 
+  function updateLanguage() {
+    const languagesCopy = [...languageScores]
+    const index = languagesCopy.findIndex((lang) => lang.isActive === true)
+
+    if (index !== -1) {
+      languagesCopy[index] = { ...languagesCopy[index], isActive: false }
+    }
+
+    setLanguageScores(languagesCopy)
+  }
+
   function guessLetter(letter: Alphabet) {
     if (letter.status !== 'neutral') {
       return
@@ -87,6 +100,8 @@ export default function Main() {
 
       return
     }
+
+    updateLanguage()
   }
 
   return (
@@ -98,7 +113,7 @@ export default function Main() {
         </p>
 
         <div className="languages-container">
-          { languages.map((lang) => <Language key={lang.name} language={lang}/>) }
+          { languageScores.map((lang) => <Language key={lang.name} language={lang}/>) }
         </div>
 
         <div className="answers-container">

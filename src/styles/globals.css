@@ -90,3 +90,15 @@ div.answers-container {
 .letter-btns.status-correct {
   background-color: #10A95B;
 }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
