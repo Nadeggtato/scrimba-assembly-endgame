@@ -1,5 +1,6 @@
 import Alphabet from "../Alphabet";
 
 export default interface LetterProps {
-  letter: Alphabet
+  letter: Alphabet,
+  onGuess: (Alphabet) => void
 }

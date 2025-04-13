@@ -75,10 +75,18 @@ div.answers-container {
   border-radius: 4px;
   cursor: pointer;
   margin: 4px;
+  text-transform: uppercase;
+  font-size: 16px;
 }
 
 .letter-btns.status-neutral {
   background-color: #FCBA29;
-  text-transform: uppercase;
-  font-size: 16px;
+}
+
+.letter-btns.status-wrong {
+  background-color: #EC5D49;
+}
+
+.letter-btns.status-correct {
+  background-color: #10A95B;
 }

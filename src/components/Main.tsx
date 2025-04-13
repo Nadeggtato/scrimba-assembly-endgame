@@ -39,6 +39,26 @@ export default function Main() {
     return wordArray
   }
 
+  function guessLetter(letter: Alphabet) {
+    if (letter.status !== 'neutral') {
+      return
+    }
+
+    setAlphabet((prevAlphabet) => {
+      const alphabetCopy = [...prevAlphabet]
+      const alphabetIndex = alphabetCopy.findIndex((alphabet) => alphabet.letter === letter.letter)
+
+      if (alphabetIndex !== -1) {
+        alphabetCopy[alphabetIndex] = {
+          ...alphabetCopy[alphabetIndex],
+          status: word.some(char => char.letter === letter.letter) ? 'correct' : 'wrong'
+        }
+      }
+
+      return alphabetCopy
+    })
+  }
+
   return (
     <main className={hk500.className}>
       <div className="top-container">
@@ -48,7 +68,7 @@ export default function Main() {
         </p>
 
         <div className="languages-container">
-          { languages.map((lang) => <Language language={lang}/>) }
+          { languages.map((lang) => <Language key={lang.name} language={lang}/>) }
         </div>
 
         <div className="answers-container">
@@ -57,7 +77,7 @@ export default function Main() {
       </div>
 
       <div className="letters-container">
-          { alphabet.map((letter) => <Letter letter={letter}/>) }
+          { alphabet.map((letter) => <Letter key={letter.letter} letter={letter} onGuess={guessLetter}/>) }
         </div>
     </main>
   )
