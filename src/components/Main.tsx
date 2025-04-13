@@ -39,19 +39,14 @@ export default function Main() {
     return wordArray
   }
 
-  function guessLetter(letter: Alphabet) {
-    if (letter.status !== 'neutral') {
-      return
-    }
-
-    let exists = false
+  function isAnswerCorrect(letter: Alphabet) {
+    const exists = word.some(char => char.letter === letter.letter)
 
     setAlphabet((prevAlphabet) => {
       const alphabetCopy = [...prevAlphabet]
       const alphabetIndex = alphabetCopy.findIndex((alphabet) => alphabet.letter === letter.letter)
 
       if (alphabetIndex !== -1) {
-        exists = word.some(char => char.letter === letter.letter)
 
         alphabetCopy[alphabetIndex] = {
           ...alphabetCopy[alphabetIndex],
@@ -62,6 +57,10 @@ export default function Main() {
       return alphabetCopy
     })
 
+    return exists
+  }
+
+  function updateAnswer(letter: Alphabet) {
     setWord((prevWord) => {
       const answer = prevWord.map((answer) => {
         if (answer.isGuessed) {
@@ -76,6 +75,18 @@ export default function Main() {
 
       return answer
     })
+  }
+
+  function guessLetter(letter: Alphabet) {
+    if (letter.status !== 'neutral') {
+      return
+    }
+
+    if (isAnswerCorrect(letter)) {
+      updateAnswer(letter)
+
+      return
+    }
   }
 
   return (
