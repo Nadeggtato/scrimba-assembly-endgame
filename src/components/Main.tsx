@@ -2,7 +2,7 @@ import { Hanken_Grotesk } from "next/font/google";
 import { languages } from "@/data/languages";
 import Language from "./Language";
 import Answer from "./Answer";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Alphabet from "@/types/Alphabet";
 import { Statuses } from "@/data/constants";
 import Letter from "./Letter";
@@ -18,11 +18,20 @@ export default function Main() {
   const [word, setWord] = useState<Array<AnswerType>>([])
   const [languageScores, setLanguageScores] = useState<Array<LanguageType>>(languages)
   const [messageType, setMessageType] = useState<string>(Statuses.NEUTRAL)
+  const [correctCount, setCorrectCount] = useState<number>(0)
   const [wrongCount, setWrongCount] = useState<number>(0)
 
   useEffect(() => {
     setWord(initializeWord())
   }, [])
+
+  useMemo(() => {
+    if (correctCount === 0 || correctCount < word.length) {
+      return false
+    }
+
+    setMessageType(Statuses.SUCCESS)
+  }, [correctCount])
 
   function initializeLetters() {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
@@ -65,20 +74,21 @@ export default function Main() {
   }
 
   function updateAnswer(letter: Alphabet) {
-    setWord((prevWord) => {
-      const answer = prevWord.map((answer) => {
-        if (answer.isGuessed) {
-          return {...answer}
-        }
+    let correctLetters = 0
 
-        return {
-          ...answer,
-          isGuessed: answer.letter === letter.letter
-        }
-      })
+    const answer = word.map((answer) => {
+      if (answer.isGuessed) {
+        return {...answer}
+      }
 
-      return answer
+      const isCorrect = answer.letter === letter.letter
+      correctLetters = correctLetters + (isCorrect ? 1 : 0)
+
+      return { ...answer, isGuessed: isCorrect }
     })
+
+    setWord(answer)
+    setCorrectCount(prevCount => prevCount + correctLetters)
   }
 
   function updateLanguage() {

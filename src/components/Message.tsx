@@ -1,6 +1,6 @@
 import { Statuses } from "@/data/constants";
 import MessageProps from "@/types/props/Message";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export default function Message(props: MessageProps) {
   const text = useMemo(() => {
@@ -10,7 +10,7 @@ export default function Message(props: MessageProps) {
       case Statuses.FAIL:
         return 'aaaa'
       case Statuses.SUCCESS:
-        return 'yaaaay'
+        return 'You win!\n Well done!🎉'
       default:
         return '\u00A0'
     }
@@ -38,7 +38,7 @@ export default function Message(props: MessageProps) {
   }
 
   return (
-    <div className={ `message type-${props.type}` }>
+    <div className={ `message type-${props.type}` } style={{ whiteSpace: 'pre-line' }}>
       { text }
     </div>
   )
