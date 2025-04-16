@@ -8,9 +8,9 @@ export default function Message(props: MessageProps) {
       case Statuses.INCORRECT:
         return getFarewellText()
       case Statuses.FAIL:
-        return 'aaaa'
+        return 'Game over!\nYou lose! Better start learning Assembly 😭'
       case Statuses.SUCCESS:
-        return 'You win!\n Well done!🎉'
+        return 'You win!\nWell done!🎉'
       default:
         return '\u00A0'
     }

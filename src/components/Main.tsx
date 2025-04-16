@@ -33,6 +33,15 @@ export default function Main() {
     setMessageType(Statuses.SUCCESS)
   }, [correctCount])
 
+  useMemo(() => {
+    // Minus 2 since assembly shouldn't be considered
+    if (wrongCount < languageScores.length - 1) {
+      return false
+    }
+
+    setMessageType(Statuses.FAIL)
+  }, [wrongCount])
+
   function initializeLetters() {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
     const lettersArray: Array<Alphabet> = []
