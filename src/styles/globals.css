@@ -55,6 +55,9 @@ div.answer-letter-container {
   color: #F9F4DA;
 }
 
+div.answer-letter-container.unguessed-letter {
+  color: #EC5D49;
+}
 div.answers-container {
   display: flex;
   gap: 4px;

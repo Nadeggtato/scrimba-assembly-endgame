@@ -25,22 +25,39 @@ export default function Main() {
     setWord(initializeWord())
   }, [])
 
-  useMemo(() => {
+  const hasWon = useMemo(() => {
     if (correctCount === 0 || correctCount < word.length) {
       return false
     }
 
     setMessageType(Statuses.SUCCESS)
+
+    return true
   }, [correctCount])
 
-  useMemo(() => {
+  const hasLost = useMemo(() => {
     // Minus 2 since assembly shouldn't be considered
     if (wrongCount < languageScores.length - 1) {
       return false
     }
 
     setMessageType(Statuses.FAIL)
+    const updatedAnswer = word.map((letter) => {
+      if (letter.isGuessed) {
+        return letter
+      }
+
+      return { ...letter, isVisible: true }
+    })
+
+    setWord(updatedAnswer)
+
+    return true
   }, [wrongCount])
+
+  const isGameOver = useMemo(() => {
+    return hasWon || hasLost
+  }, [hasWon, hasLost])
 
   function initializeLetters() {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
@@ -56,7 +73,7 @@ export default function Main() {
   function initializeWord() {
     const index = Math.floor(Math.random() * (words.length - 1)) + 1
     const wordArray = words[index].split('').map((letter) => {
-      return { letter: letter, isGuessed: false }
+      return { letter: letter, isVisible: false, isGuessed: false }
     })
 
     return wordArray
@@ -93,7 +110,7 @@ export default function Main() {
       const isCorrect = answer.letter === letter.letter
       correctLetters = correctLetters + (isCorrect ? 1 : 0)
 
-      return { ...answer, isGuessed: isCorrect }
+      return { ...answer, isGuessed: isCorrect, isVisible: isCorrect }
     })
 
     setWord(answer)
@@ -117,7 +134,7 @@ export default function Main() {
   }
 
   function guessLetter(letter: Alphabet) {
-    if (letter.status !== Statuses.NEUTRAL) {
+    if (isGameOver || letter.status !== Statuses.NEUTRAL) {
       return
     }
 

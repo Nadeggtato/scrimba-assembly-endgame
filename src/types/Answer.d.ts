@@ -1,4 +1,5 @@
 export default interface Answer {
   letter: string,
-  isGuessed: boolean
+  isGuessed: boolean,
+  isVisible: boolean
 }
