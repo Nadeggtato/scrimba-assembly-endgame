@@ -12,6 +12,7 @@ import type LanguageType from "@/types/Language";
 import Message from "./Message";
 
 const hk500 = Hanken_Grotesk({ subsets: ['latin'], weight: '500' })
+const hk600 = Hanken_Grotesk({ subsets: ['latin'], weight: '600' })
 
 export default function Main() {
   const [alphabet, setAlphabet] = useState<Array<Alphabet>>(() => initializeLetters())
@@ -149,6 +150,15 @@ export default function Main() {
     updateMessage(Statuses.INCORRECT)
   }
 
+  function startNewGame() {
+    setAlphabet(initializeLetters())
+    setWord(initializeWord())
+    setLanguageScores(languages)
+    setMessageType(Statuses.NEUTRAL)
+    setCorrectCount(0)
+    setWrongCount(0)
+  }
+
   return (
     <main className={hk500.className}>
       <div className="top-container">
@@ -167,8 +177,14 @@ export default function Main() {
       </div>
 
       <div className="letters-container">
-          { alphabet.map((letter) => <Letter key={letter.letter} letter={letter} onGuess={guessLetter}/>) }
-        </div>
+        { alphabet.map((letter) => <Letter key={letter.letter} letter={letter} onGuess={guessLetter}/>) }
+      </div>
+
+      { isGameOver &&
+        <button className={`btn-new-game ${hk600.className}`} onClick={startNewGame}>
+          New Game
+        </button>
+      }
     </main>
   )
 }

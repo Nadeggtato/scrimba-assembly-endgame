@@ -135,3 +135,14 @@ div.message.type-fail {
 div.message.type-success {
   background-color: #10A95B;
 }
+
+button.btn-new-game {
+  background-color: #11B5E5;
+  color: #1E1E1E;
+  border: 1px solid #D7D7D7;
+  border-radius: 4px;
+  padding: 12px 50px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
